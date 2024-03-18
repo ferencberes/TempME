@@ -23,7 +23,7 @@ from TGN.tgn import TGN
 
 degree_dict = {"wikipedia":20, "reddit":20 ,"uci":30 ,"mooc":60, "enron": 30, "canparl": 30, "uslegis": 30}
 ### Argument and global variables
-parser = argparse.ArgumentParser('Interface for TGAT experiments on link predictions')
+parser = argparse.ArgumentParser('Motif Enhancement Verification')
 parser.add_argument('--gpu', type=int, default=0, help='idx for the gpu to use')
 parser.add_argument("--base_type", type=str, default="tgn", help="tgn or graphmixer or tgat")
 parser.add_argument('--data', type=str, help='data sources to use, try wikipedia or reddit', default='wikipedia')
