@@ -1,3 +1,5 @@
+This repo is cloned from [Graph-and-Geometric-Learning/TempME](https://github.com/Graph-and-Geometric-Learning/TempME).
+
 # TempME: Towards the Explainability of Temporal Graph Neural Networks via Motif Discovery
 
 This is the Pytorch Implementation of [**_TempME:Towards the Explainability of Temporal Graph Neural Networks via Motif Discovery_**](https://proceedings.neurips.cc/paper_files/paper/2023/hash/5c5bc3553815adb4d1a8a5b8701e41a9-Abstract-Conference.html) [[arXiv]](https://arxiv.org/abs/2310.19324)
