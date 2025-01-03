@@ -300,9 +300,30 @@ class NeighborFinder:
         e_id_3 = e_id_3.reshape(batch, -1)
         t_id_3 = t_id_3.reshape(batch, -1)
         out_anony = out_anony.reshape((batch, n_id_src_3.shape[1], 3))
-        node_records = np.stack([n_id_src_3, n_id_tgt_3, n_id_src_2, n_id_tgt_2, n_id_src_1, n_id_tgt_1], axis=2)
-        eidx_records = np.stack([e_id_3, e_id_2, e_id_1], axis=2)
-        t_records = np.stack([t_id_3, t_id_2, t_id_1], axis=2)
+        arrays1 = [n_id_src_3, n_id_tgt_3, n_id_src_2, n_id_tgt_2, n_id_src_1, n_id_tgt_1]
+        # CHANGE: there was dimension mismatch
+        min_dim = min([arr.shape[1] for arr in arrays1])
+        arrays1 = [arr[:, :min_dim] for arr in arrays1]
+        arrays2 = [e_id_3, e_id_2, e_id_1]
+        arrays3 = [t_id_3, t_id_2, t_id_1]
+        #print("DEBUGGING: array1")
+        #for arr in arrays1:
+        #    print(arr.shape)
+        #print("DEBUGGING: array2")
+        #for arr in arrays2:
+        #    print(arr.shape)
+        #print("DEBUGGING: array3")
+        #for arr in arrays3:
+        #    print(arr.shape)
+        node_records = np.stack(arrays1, axis=2)
+        eidx_records = np.stack(arrays2, axis=2)
+        t_records = np.stack(arrays3, axis=2)
+        # CHANGE: there was dimension mismatch
+        min_dim = min([arr.shape[1] for arr in [node_records, eidx_records, t_records]])
+        node_records = node_records[:, :min_dim]
+        eidx_records = eidx_records[:, :min_dim]
+        t_records = t_records[:, :min_dim]
+        out_anony = out_anony[:, :min_dim]
         return (node_records, eidx_records, t_records, out_anony)
 
     def get_next_step(self, src_idx_l, cut_time_l, num_neighbor, degree, e_idx_l=None, source_id=None):
@@ -313,7 +334,17 @@ class NeighborFinder:
         cut_time_l: List[float],
         num_neighbors: int
         """
+        #print('DEBUGGING')
+        #print(len(src_idx_l), len(cut_time_l), len(source_id))
+        #print(src_idx_l)
+        #print(cut_time_l)
+        #print(source_id)
         source_id = np.expand_dims(source_id, axis=1).repeat(degree, axis=1).flatten()   #[B*N1]
+        # CHANGE: there was dimension mismatch
+        source_id = source_id[:len(src_idx_l)]
+        #print('DEBUGGING')
+        #print(len(src_idx_l), len(cut_time_l), len(source_id))
+        #print(source_id)
         assert len(src_idx_l) == len(cut_time_l) == len(source_id)
         out_ngh_node_batch = np.zeros((len(src_idx_l), num_neighbor)).astype(np.int32)  #[B*N1, N2]
         out_ngh_t_batch = np.zeros((len(src_idx_l), num_neighbor)).astype(np.float32)
