@@ -632,8 +632,11 @@ if __name__ == '__main__':
         base_model.forbidden_memory_update = True
     pre_load_train = h5py.File(osp.join(osp.dirname(osp.realpath(__file__)),  'processed', f'{args.data}_train_cat.h5'), 'r')
     pre_load_test = h5py.File(osp.join(osp.dirname(osp.realpath(__file__)),  'processed', f'{args.data}_test_cat.h5'), 'r')
+    # NOTE: why do we load e_feat and n_feat if we don't use them?
     e_feat = np.load(osp.join(osp.dirname(osp.realpath(__file__)), 'processed', f'ml_{args.data}.npy'))
     n_feat = np.load(osp.join(osp.dirname(osp.realpath(__file__)), 'processed', f'ml_{args.data}_node.npy'))
+    #print("DEBUGGING")
+    #print(e_feat.shape, n_feat.shape)
 
     train_pack = load_subgraph_margin(args, pre_load_train)
     test_pack = load_subgraph_margin(args, pre_load_test)

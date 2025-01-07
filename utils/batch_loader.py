@@ -203,6 +203,7 @@ def load_subgraph_margin(args, file):
 
 def get_item(input_pack, batch_id):
     subgraph_src, subgraph_tgt, subgraph_bgd, walks_src, walks_tgt, walks_bgd, dst_fake = input_pack
+    
     node_records, eidx_records, t_records = subgraph_src
     node_records = [i[batch_id] for i in node_records]
     eidx_records = [i[batch_id] for i in eidx_records]
@@ -236,6 +237,11 @@ def get_item(input_pack, batch_id):
 
 def get_item_edge(edge_features, batch_id):
     edge_features = edge_features[:, batch_id, :, :, :]  # [3,bsz, n_walks,length, length]
+    #1st dim: src, trg, bgd? (3)
+    #2nd dim: batches: batch_id is an index range (the edges in the current batch)
+    #3rd dim: walks?
+    #4th dim: length of walk?
+    #5th dim: length of walk?
     src_edge = edge_features[0]
     tgt_edge = edge_features[1]
     bgd_edge = edge_features[2]
